@@ -4,7 +4,7 @@
       <div class="col-sm-10">
         <h1>Créer une nouvelle tache</h1>
         <br />
-        <form @reset="onReset()">
+        <form  @reset="onReset()">
           <input type="text" placeholder="Task Name" v-model="addTaskForm.name" class="form-control" />
           <br />
           <textarea placeholder="Task Description" cols="80" rows="10" v-model="addTaskForm.description"
@@ -13,11 +13,10 @@
 
 
           <div class="d-flex justify-content-between">
-            <button type="button" class="d-grid gap-1 col-5 mx-auto btn btn-dark"><router-link
-                to="/">Retour</router-link></button>
+            <button type="button" class="d-grid gap-1 col-5 mx-auto btn btn-dark"><router-link to="/">Retour</router-link></button>
             <button v-on:click="onSubmit()" type="button" class="d-grid gap-2 col-5 mx-auto btn btn-dark">Create</button>
           </div>
-
+          
 
 
         </form>
@@ -46,13 +45,19 @@ export default {
         description: this.addTaskForm.description,
       };
       if (task.name === "" && task.description === "") {
-        
-      }else{
-        this.addTask(task);
-        this.onReset();
-      }
-      
-    },
+    return;
+  } else {
+    this.addTask(task);
+    this.onReset();
+    this.$refs.alert.showAlert(
+      'success', // Type de l'alerte (success, info, warning, error)
+      35, // Taille de l'icône (px)
+      'solid', // Style de l'icône (solid ou regular)
+      'Success 200', // Titre de l'alerte
+      'Votre tache a bien été créée.' // Message de l'alerte
+    );
+  }
+},
     onReset() {
       this.addTaskForm.name = '';
       this.addTaskForm.description = '';
@@ -62,7 +67,7 @@ export default {
       axios.post(url, task)
         .then((response) => {
           console.log(response);
-          this.$router.push('/')
+              this.$router.push('/')
         })
         .catch((error) => {
           console.log(error);
@@ -76,9 +81,8 @@ export default {
 .form {
   margin-top: 5rem;
 }
-
-h1 {
-  color: darkorange;
+h1{
+  color:darkorange ;
 }
 </style>
   Footer

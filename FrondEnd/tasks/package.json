@@ -14,6 +14,7 @@
     "console-browserify": "^1.2.0",
     "core-js": "^3.8.3",
     "vue": "^3.2.47",
+    "vue-basic-alert": "^1.1.0",
     "vue-moment": "^4.1.0",
     "vue-router": "^4.0.13",
     "vuex": "^4.0.2"

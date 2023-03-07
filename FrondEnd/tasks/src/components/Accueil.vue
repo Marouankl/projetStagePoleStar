@@ -5,9 +5,10 @@
 
                 <h1>Afficher les taches disponibles </h1>
                 <hr><br><br>
-                <router-link  to="/AjouterTask"><button type="submit" class="d-grid gap-1 col-3 mx-auto btn btn-primary">Créer une nouvelle Tache</button></router-link>
-                
-                
+                <router-link to="/AjouterTask"><button type="submit"
+                        class="d-grid gap-1 col-3 mx-auto btn btn-primary">Créer une nouvelle Tache</button></router-link>
+
+
                 <br><br>
                 <table class="table table-hover">
                     <thead>
@@ -33,7 +34,8 @@
                             <td>
                                 <div class="btn-group" role="group">
 
-                                    <button type="button" class="btn btn-danger btn-sm" v-on:click="deleteTask(task, index)">
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        v-on:click="deleteTask(task, index)">
                                         Delete
                                     </button>
                                 </div>
@@ -43,8 +45,8 @@
                 </table>
             </div>
         </div>
-        
-        
+
+
     </div>
 </template>
 
@@ -55,15 +57,15 @@ import moment from 'moment'
 
 
 export default {
-    
+
     name: ' Accueil',
     data() {
         return {
             tasks: [],
 
-           
-            
-      
+
+
+
         };
 
     },
@@ -71,7 +73,7 @@ export default {
 
         this.getTasks();
     },
-    computed:{
+    computed: {
 
     },
 
@@ -89,36 +91,40 @@ export default {
             })
         },
 
-        
+
 
         deleteTask(task, index) {
             const url = `http://127.0.0.1:5000/delete/${task.id}`;
             axios.post(url)
                 .then(() => {
                     this.tasks.splice(index, 1);
+                    this.$refs.alert.showAlert(
+                        'success', // There are 4 types of alert: success, info, warning, error
+                        35, // Size of the icon (px)
+                        'solid', // Icon styles: now only 2 styles 'solid' and 'regular'
+                        'Success 200', // Header of the alert
+                        'Votre tache a bien été supprimée.' // Message of the alert
+                    )
                 })
                 .catch((error) => {
                     console.error(error);
                 });
         },
         moment: function () {
-          return moment();
-       },
+            return moment();
+        },
 
-       
+
     },
-  
 
-      
+
+
 }
 
 </script>
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-
-
 h1 {
     color: coral;
     margin: 40px 0 0;
