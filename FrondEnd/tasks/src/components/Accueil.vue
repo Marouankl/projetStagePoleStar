@@ -62,23 +62,17 @@ export default {
     data() {
         return {
             tasks: [],
-
-
-
-
         };
 
     },
     mounted() {
-
         this.getTasks();
     },
-    computed: {
-
-    },
+   
 
     methods: {
 
+        // Pour récupérer les donner dans la table avec axios  
         getTasks() {
             const url = 'http://127.0.0.1:5000/allTask';
             axios.get(url).then((response) => {
@@ -92,7 +86,7 @@ export default {
         },
 
 
-
+         // Pour supprimer une tache avec sont ID avec axios
         deleteTask(task, index) {
             const url = `http://127.0.0.1:5000/delete/${task.id}`;
             axios.post(url)
@@ -110,6 +104,7 @@ export default {
                     console.error(error);
                 });
         },
+        //fonction moment pour format dateTime
         moment: function () {
             return moment();
         },
