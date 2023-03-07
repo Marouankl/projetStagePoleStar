@@ -4,7 +4,7 @@
       <div class="col-sm-10">
         <h1>Créer une nouvelle tache</h1>
         <br />
-        <form @submit.prevent="onSubmit" @reset="onReset">
+        <form @reset="onReset()">
           <input type="text" placeholder="Task Name" v-model="addTaskForm.name" class="form-control" />
           <br />
           <textarea placeholder="Task Description" cols="80" rows="10" v-model="addTaskForm.description"
@@ -13,10 +13,11 @@
 
 
           <div class="d-flex justify-content-between">
-            <button type="button" class="d-grid gap-1 col-5 mx-auto btn btn-dark"><router-link to="/">Retour</router-link></button>
-            <button type="button" class="d-grid gap-2 col-5 mx-auto btn btn-dark">Create</button>
+            <button type="button" class="d-grid gap-1 col-5 mx-auto btn btn-dark"><router-link
+                to="/">Retour</router-link></button>
+            <button v-on:click="onSubmit()" type="button" class="d-grid gap-2 col-5 mx-auto btn btn-dark">Create</button>
           </div>
-          
+
 
 
         </form>
@@ -44,8 +45,13 @@ export default {
         name: this.addTaskForm.name,
         description: this.addTaskForm.description,
       };
-      this.addTask(task);
-      this.onReset();
+      if (task.name === "" && task.description === "") {
+        
+      }else{
+        this.addTask(task);
+        this.onReset();
+      }
+      
     },
     onReset() {
       this.addTaskForm.name = '';
@@ -56,6 +62,7 @@ export default {
       axios.post(url, task)
         .then((response) => {
           console.log(response);
+          this.$router.push('/')
         })
         .catch((error) => {
           console.log(error);
@@ -69,8 +76,9 @@ export default {
 .form {
   margin-top: 5rem;
 }
-h1{
-  color:darkorange ;
+
+h1 {
+  color: darkorange;
 }
 </style>
   Footer

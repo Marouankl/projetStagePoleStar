@@ -33,7 +33,7 @@
                             <td>
                                 <div class="btn-group" role="group">
 
-                                    <button type="button" class="btn btn-danger btn-sm" @click="deleteTask(task, index)">
+                                    <button type="button" class="btn btn-danger btn-sm" v-on:click="deleteTask(task, index)">
                                         Delete
                                     </button>
                                 </div>
@@ -95,7 +95,7 @@ export default {
             const url = `http://127.0.0.1:5000/delete/${task.id}`;
             axios.post(url)
                 .then(() => {
-                    this.tasks.indexOf(index);
+                    this.tasks.splice(index, 1);
                 })
                 .catch((error) => {
                     console.error(error);
