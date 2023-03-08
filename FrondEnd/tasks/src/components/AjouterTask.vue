@@ -19,6 +19,12 @@
           </div>
 
 
+          <div v-if="notification" class="notification">
+            Tâche ajouter avec succès.
+          </div>
+          <div v-if="notification" class="notification2">
+            Tâche supprimée avec succès.
+          </div>
 
         </form>
       </div>
@@ -37,67 +43,30 @@ export default {
         name: '',
         description: '',
       },
+      notification: false
     };
   },
   methods: {
-
-    //methode onSubmit pour lancé evenement de la bouton create  avec message alert
     onSubmit() {
       const task = {
         name: this.addTaskForm.name,
         description: this.addTaskForm.description,
       };
-      if (task.name === "" && task.description === "") {
-        this.$refs.alert.showAlert(
-          'error', // Type de l'alerte (success, info, warning, error)
-          35, // Taille de l'icône (px)
-          'solid', // Style de l'icône (solid ou regular)
-          'Erreur 400', // Titre de l'alerte
-          'Le nom et la description de la tache ne peuvent pas être vides.' // Message de l'alerte
-        );
-        return;
-      } else if (task.name === "") {
-        this.$refs.alert.showAlert(
-          'error', // Type de l'alerte (success, info, warning, error)
-          35, // Taille de l'icône (px)
-          'solid', // Style de l'icône (solid ou regular)
-          'Erreur 400', // Titre de l'alerte
-          'Le nom de la tache ne peut pas être vide.' // Message de l'alerte
-        );
-        return;
-      } else if (task.description === "") {
-        this.$refs.alert.showAlert(
-          'error', // Type de l'alerte (success, info, warning, error)
-          35, // Taille de l'icône (px)
-          'solid', // Style de l'icône (solid ou regular)
-          'Erreur 400', // Titre de l'alerte
-          'La description de la tache ne peut pas être vide.' // Message de l'alerte
-        );
-        return;
-      } else {
-        this.addTask(task);
-        this.onReset();
-        this.$refs.alert.showAlert(
-          'success', // Type de l'alerte (success, info, warning, error)
-          35, // Taille de l'icône (px)
-          'solid', // Style de l'icône (solid ou regular)
-          'Success 200', // Titre de l'alerte
-          'Votre tache a bien été créée.' // Message de l'alerte
-        );
-      }
+      this.addTask(task);
+      this.onReset();
     },
-    // Reset la page après la ajouter les données 
     onReset() {
       this.addTaskForm.name = '';
       this.addTaskForm.description = '';
     },
-
-    // pour ajouter les donner  a la base donnée avec axios 
     addTask(task) {
       const url = 'http://127.0.0.1:5000/create';
       axios.post(url, task)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
+          this.notification = true; // activation de la notification
+                    setTimeout(() => {
+                        this.notification = false; // désactivation de la notification après 3 secondes
+                    }, 3000);
           this.$router.push('/')
         })
         .catch((error) => {
@@ -112,7 +81,28 @@ export default {
 .form {
   margin-top: 5rem;
 }
-
+.notification {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 9999;
+}
+.notification2 {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color:red;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 9999;
+}
 h1 {
   color: darkorange;
 }

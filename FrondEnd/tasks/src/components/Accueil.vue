@@ -43,6 +43,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <div v-if="notification" class="notification">
+                    Tâche supprimée avec succès.
+                </div>
             </div>
         </div>
 
@@ -62,13 +65,14 @@ export default {
     data() {
         return {
             tasks: [],
+            notification: false
         };
 
     },
     mounted() {
         this.getTasks();
     },
-   
+
 
     methods: {
 
@@ -86,19 +90,17 @@ export default {
         },
 
 
-         // Pour supprimer une tache avec sont ID avec axios
+        // Pour supprimer une tache avec sont ID avec axios
         deleteTask(task, index) {
             const url = `http://127.0.0.1:5000/delete/${task.id}`;
             axios.post(url)
                 .then(() => {
                     this.tasks.splice(index, 1);
-                    this.$refs.alert.showAlert(
-                        'success', // There are 4 types of alert: success, info, warning, error
-                        35, // Size of the icon (px)
-                        'solid', // Icon styles: now only 2 styles 'solid' and 'regular'
-                        'Success 200', // Header of the alert
-                        'Votre tache a bien été supprimée.' // Message of the alert
-                    )
+                    this.notification = true; // activation de la notification
+                    setTimeout(() => {
+                        this.notification = false; // désactivation de la notification après 3 secondes
+                    }, 3000);
+
                 })
                 .catch((error) => {
                     console.error(error);
@@ -120,6 +122,17 @@ export default {
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.notification {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 9999;
+}
 h1 {
     color: coral;
     margin: 40px 0 0;
